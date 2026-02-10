@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SectionCobrancas } from "./section-cobrancas";
@@ -7,11 +7,7 @@ import { SectionAssinaturas } from "./section-assinaturas";
 import { SectionTickets } from "./section-tickets";
 import { DollarSign, Wrench, CreditCard, MessageSquare } from "lucide-react";
 
-interface DashboardProps {
-  email: string;
-}
-
-export function Dashboard({ email }: DashboardProps) {
+export async function Dashboard() {
   return (
     <div className="flex min-h-svh flex-col bg-background">
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
@@ -29,9 +25,11 @@ export function Dashboard({ email }: DashboardProps) {
               <CreditCard className="h-4 w-4" />
               <span className="hidden sm:inline">Assinaturas</span>
             </TabsTrigger>
-            <TabsTrigger value="tickets" className="gap-2">
+            <TabsTrigger value="tickets" className="gap-2" disabled={true}>
               <MessageSquare className="h-4 w-4" />
-              <span className="hidden sm:inline">Tickets</span>
+              <span className="hidden sm:inline">
+                Tickets <small>Em breve</small>
+              </span>
             </TabsTrigger>
           </TabsList>
 

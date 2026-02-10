@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { CheckCircle2, XCircle, CreditCard } from "lucide-react";
 import {
@@ -8,6 +8,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
@@ -50,7 +51,7 @@ const assinaturas = [
   },
 ];
 
-export function SectionAssinaturas() {
+export async function SectionAssinaturas() {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

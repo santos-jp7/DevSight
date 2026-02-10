@@ -1,0 +1,2364 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "bank_accounts": {
+      "name": "bank_accounts",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bank": {
+          "autoincrement": false,
+          "name": "bank",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "agency": {
+          "autoincrement": false,
+          "name": "agency",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accountNumber": {
+          "autoincrement": false,
+          "name": "accountNumber",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "balance": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "balance",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "bank_accounts_id": {
+          "name": "bank_accounts_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "bank_transfers": {
+      "name": "bank_transfers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sourceAccountId": {
+          "autoincrement": false,
+          "name": "sourceAccountId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "destinationAccountId": {
+          "autoincrement": false,
+          "name": "destinationAccountId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "autoincrement": false,
+          "name": "amount",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "autoincrement": false,
+          "name": "date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "bank_transfers_id": {
+          "name": "bank_transfers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "sourceAccountId": {
+          "name": "sourceAccountId",
+          "columns": [
+            "sourceAccountId"
+          ],
+          "isUnique": false
+        },
+        "destinationAccountId": {
+          "name": "destinationAccountId",
+          "columns": [
+            "destinationAccountId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "bank_transfers_ibfk_1": {
+          "name": "bank_transfers_ibfk_1",
+          "tableFrom": "bank_transfers",
+          "tableTo": "bank_accounts",
+          "columnsFrom": [
+            "sourceAccountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "bank_transfers_ibfk_2": {
+          "name": "bank_transfers_ibfk_2",
+          "tableFrom": "bank_transfers",
+          "tableTo": "bank_accounts",
+          "columnsFrom": [
+            "destinationAccountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "billing_protocols": {
+      "name": "billing_protocols",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "autoincrement": false,
+          "name": "value",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "BillingId": {
+          "autoincrement": false,
+          "name": "BillingId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProtocolId": {
+          "autoincrement": false,
+          "name": "ProtocolId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "billing_protocols_id": {
+          "name": "billing_protocols_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "BillingId": {
+          "name": "BillingId",
+          "columns": [
+            "BillingId"
+          ],
+          "isUnique": false
+        },
+        "ProtocolId": {
+          "name": "ProtocolId",
+          "columns": [
+            "ProtocolId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "billing_protocols_ibfk_1": {
+          "name": "billing_protocols_ibfk_1",
+          "tableFrom": "billing_protocols",
+          "tableTo": "billings",
+          "columnsFrom": [
+            "BillingId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "billing_protocols_ibfk_2": {
+          "name": "billing_protocols_ibfk_2",
+          "tableFrom": "billing_protocols",
+          "tableTo": "protocols",
+          "columnsFrom": [
+            "ProtocolId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "billings": {
+      "name": "billings",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "default": "'pendente'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_value": {
+          "default": "'0.00'",
+          "autoincrement": false,
+          "name": "total_value",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "due_date": {
+          "autoincrement": false,
+          "name": "due_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_date": {
+          "autoincrement": false,
+          "name": "payment_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "method": {
+          "default": "'Boleto'",
+          "autoincrement": false,
+          "name": "method",
+          "type": "enum('Pix','Boleto','Cartão','Transferência','Espécie')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "BankAccountId": {
+          "autoincrement": false,
+          "name": "BankAccountId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "billings_id": {
+          "name": "billings_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "BankAccountId": {
+          "name": "BankAccountId",
+          "columns": [
+            "BankAccountId"
+          ],
+          "isUnique": false
+        },
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "billings_ibfk_1": {
+          "name": "billings_ibfk_1",
+          "tableFrom": "billings",
+          "tableTo": "bank_accounts",
+          "columnsFrom": [
+            "BankAccountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "billings_ibfk_2": {
+          "name": "billings_ibfk_2",
+          "tableFrom": "billings",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "checks": {
+      "name": "checks",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "autoincrement": false,
+          "name": "url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "condition": {
+          "autoincrement": false,
+          "name": "condition",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "send_alert": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "send_alert",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "message": {
+          "autoincrement": false,
+          "name": "message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verify_status": {
+          "default": 1,
+          "autoincrement": false,
+          "name": "verify_status",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "path_return": {
+          "autoincrement": false,
+          "name": "path_return",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "return": {
+          "autoincrement": false,
+          "name": "return",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "default": "'OK'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('OK','Error')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProjectId": {
+          "autoincrement": false,
+          "name": "ProjectId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "checks_id": {
+          "name": "checks_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProjectId": {
+          "name": "ProjectId",
+          "columns": [
+            "ProjectId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "checks_ibfk_1": {
+          "name": "checks_ibfk_1",
+          "tableFrom": "checks",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "ProjectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "clients": {
+      "name": "clients",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "corporate_name": {
+          "autoincrement": false,
+          "name": "corporate_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "document": {
+          "autoincrement": false,
+          "name": "document",
+          "type": "varchar(15)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "due_day": {
+          "default": 20,
+          "autoincrement": false,
+          "name": "due_day",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "clients_id": {
+          "name": "clients_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "contacts": {
+      "name": "contacts",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "number": {
+          "autoincrement": false,
+          "name": "number",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "whatsapp": {
+          "autoincrement": false,
+          "name": "whatsapp",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "contacts_id": {
+          "name": "contacts_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "contacts_ibfk_1": {
+          "name": "contacts_ibfk_1",
+          "tableFrom": "contacts",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "cost_centers": {
+      "name": "cost_centers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ParentId": {
+          "autoincrement": false,
+          "name": "ParentId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "cost_centers_id": {
+          "name": "cost_centers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ParentId": {
+          "name": "ParentId",
+          "columns": [
+            "ParentId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "cost_centers_ibfk_1": {
+          "name": "cost_centers_ibfk_1",
+          "tableFrom": "cost_centers",
+          "tableTo": "cost_centers",
+          "columnsFrom": [
+            "ParentId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "credentials": {
+      "name": "credentials",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "host": {
+          "autoincrement": false,
+          "name": "host",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "autoincrement": false,
+          "name": "username",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "autoincrement": false,
+          "name": "password",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "credentials_id": {
+          "name": "credentials_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "credentials_ibfk_1": {
+          "name": "credentials_ibfk_1",
+          "tableFrom": "credentials",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "licenses": {
+      "name": "licenses",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "key": {
+          "autoincrement": false,
+          "name": "key",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "default": "'Ativo'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('Ativo','Inativo')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SubscriptionId": {
+          "autoincrement": false,
+          "name": "SubscriptionId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "licenses_id": {
+          "name": "licenses_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "SubscriptionId": {
+          "name": "SubscriptionId",
+          "columns": [
+            "SubscriptionId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "licenses_ibfk_1": {
+          "name": "licenses_ibfk_1",
+          "tableFrom": "licenses",
+          "tableTo": "subscriptions",
+          "columnsFrom": [
+            "SubscriptionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {
+        "key": {
+          "name": "key",
+          "columns": [
+            "key"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "payables": {
+      "name": "payables",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "autoincrement": false,
+          "name": "value",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dueDate": {
+          "autoincrement": false,
+          "name": "dueDate",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paymentDate": {
+          "autoincrement": false,
+          "name": "paymentDate",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "default": "'pendente'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('pendente','pago','atrasado','cancelado')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SupplierId": {
+          "autoincrement": false,
+          "name": "SupplierId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "BankAccountId": {
+          "autoincrement": false,
+          "name": "BankAccountId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "CostCenterId": {
+          "autoincrement": false,
+          "name": "CostCenterId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "payables_id": {
+          "name": "payables_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "SupplierId": {
+          "name": "SupplierId",
+          "columns": [
+            "SupplierId"
+          ],
+          "isUnique": false
+        },
+        "BankAccountId": {
+          "name": "BankAccountId",
+          "columns": [
+            "BankAccountId"
+          ],
+          "isUnique": false
+        },
+        "CostCenterId": {
+          "name": "CostCenterId",
+          "columns": [
+            "CostCenterId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "payables_ibfk_1": {
+          "name": "payables_ibfk_1",
+          "tableFrom": "payables",
+          "tableTo": "suppliers",
+          "columnsFrom": [
+            "SupplierId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "payables_ibfk_2": {
+          "name": "payables_ibfk_2",
+          "tableFrom": "payables",
+          "tableTo": "bank_accounts",
+          "columnsFrom": [
+            "BankAccountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "payables_ibfk_3": {
+          "name": "payables_ibfk_3",
+          "tableFrom": "payables",
+          "tableTo": "cost_centers",
+          "columnsFrom": [
+            "CostCenterId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "products": {
+      "name": "products",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "value",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "coust": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "coust",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "generate_license": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "generate_license",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "products_id": {
+          "name": "products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "projects": {
+      "name": "projects",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "autoincrement": false,
+          "name": "url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fixed": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "fixed",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "type": {
+          "autoincrement": false,
+          "name": "type",
+          "type": "enum('API','Bot','WebSite','Automação','Crawler','Outros')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ServerId": {
+          "autoincrement": false,
+          "name": "ServerId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "projects_id": {
+          "name": "projects_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ServerId": {
+          "name": "ServerId",
+          "columns": [
+            "ServerId"
+          ],
+          "isUnique": false
+        },
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "projects_ibfk_1": {
+          "name": "projects_ibfk_1",
+          "tableFrom": "projects",
+          "tableTo": "servers",
+          "columnsFrom": [
+            "ServerId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "projects_ibfk_2": {
+          "name": "projects_ibfk_2",
+          "tableFrom": "projects",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "protocol_products": {
+      "name": "protocol_products",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "charge_type": {
+          "autoincrement": false,
+          "name": "charge_type",
+          "type": "enum('Único','Mensal','Anual')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "autoincrement": false,
+          "name": "value",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProductId": {
+          "autoincrement": false,
+          "name": "ProductId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "LicenseId": {
+          "autoincrement": false,
+          "name": "LicenseId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProtocolId": {
+          "autoincrement": false,
+          "name": "ProtocolId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "protocol_products_id": {
+          "name": "protocol_products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProductId": {
+          "name": "ProductId",
+          "columns": [
+            "ProductId"
+          ],
+          "isUnique": false
+        },
+        "LicenseId": {
+          "name": "LicenseId",
+          "columns": [
+            "LicenseId"
+          ],
+          "isUnique": false
+        },
+        "ProtocolId": {
+          "name": "ProtocolId",
+          "columns": [
+            "ProtocolId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "protocol_products_ibfk_1": {
+          "name": "protocol_products_ibfk_1",
+          "tableFrom": "protocol_products",
+          "tableTo": "products",
+          "columnsFrom": [
+            "ProductId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "protocol_products_ibfk_2": {
+          "name": "protocol_products_ibfk_2",
+          "tableFrom": "protocol_products",
+          "tableTo": "licenses",
+          "columnsFrom": [
+            "LicenseId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "protocol_products_ibfk_3": {
+          "name": "protocol_products_ibfk_3",
+          "tableFrom": "protocol_products",
+          "tableTo": "protocols",
+          "columnsFrom": [
+            "ProtocolId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "protocol_registers": {
+      "name": "protocol_registers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "autoincrement": false,
+          "name": "value",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "autoincrement": false,
+          "name": "type",
+          "type": "enum('Serviço','Despesa')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProtocolId": {
+          "autoincrement": false,
+          "name": "ProtocolId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "protocol_registers_id": {
+          "name": "protocol_registers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProtocolId": {
+          "name": "ProtocolId",
+          "columns": [
+            "ProtocolId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "protocol_registers_ibfk_1": {
+          "name": "protocol_registers_ibfk_1",
+          "tableFrom": "protocol_registers",
+          "tableTo": "protocols",
+          "columnsFrom": [
+            "ProtocolId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "protocols": {
+      "name": "protocols",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "default": "'Em aberto'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('Em aberto','Liberado para pagamento','Fechado','Cancelado')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "autoincrement": false,
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "closedAt": {
+          "autoincrement": false,
+          "name": "closedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "SubscriptionId": {
+          "autoincrement": false,
+          "name": "SubscriptionId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ServiceOrderId": {
+          "autoincrement": false,
+          "name": "ServiceOrderId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "protocols_id": {
+          "name": "protocols_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "SubscriptionId": {
+          "name": "SubscriptionId",
+          "columns": [
+            "SubscriptionId"
+          ],
+          "isUnique": false
+        },
+        "ServiceOrderId": {
+          "name": "ServiceOrderId",
+          "columns": [
+            "ServiceOrderId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "protocols_ibfk_1": {
+          "name": "protocols_ibfk_1",
+          "tableFrom": "protocols",
+          "tableTo": "subscriptions",
+          "columnsFrom": [
+            "SubscriptionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "protocols_ibfk_2": {
+          "name": "protocols_ibfk_2",
+          "tableFrom": "protocols",
+          "tableTo": "service_orders",
+          "columnsFrom": [
+            "ServiceOrderId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "receipts": {
+      "name": "receipts",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "method": {
+          "autoincrement": false,
+          "name": "method",
+          "type": "enum('Pix','Boleto','Cartão','Transferência','Espécie')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "autoincrement": false,
+          "name": "value",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "note": {
+          "autoincrement": false,
+          "name": "note",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "BankAccountId": {
+          "autoincrement": false,
+          "name": "BankAccountId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProtocolId": {
+          "autoincrement": false,
+          "name": "ProtocolId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "receipts_id": {
+          "name": "receipts_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "BankAccountId": {
+          "name": "BankAccountId",
+          "columns": [
+            "BankAccountId"
+          ],
+          "isUnique": false
+        },
+        "ProtocolId": {
+          "name": "ProtocolId",
+          "columns": [
+            "ProtocolId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "receipts_ibfk_1": {
+          "name": "receipts_ibfk_1",
+          "tableFrom": "receipts",
+          "tableTo": "bank_accounts",
+          "columnsFrom": [
+            "BankAccountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "receipts_ibfk_2": {
+          "name": "receipts_ibfk_2",
+          "tableFrom": "receipts",
+          "tableTo": "protocols",
+          "columnsFrom": [
+            "ProtocolId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "servers": {
+      "name": "servers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provider": {
+          "autoincrement": false,
+          "name": "provider",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "host": {
+          "autoincrement": false,
+          "name": "host",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "username": {
+          "autoincrement": false,
+          "name": "username",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "autoincrement": false,
+          "name": "password",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rsa": {
+          "autoincrement": false,
+          "name": "rsa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "servers_id": {
+          "name": "servers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "servers_ibfk_1": {
+          "name": "servers_ibfk_1",
+          "tableFrom": "servers",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "service_orders": {
+      "name": "service_orders",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subject": {
+          "autoincrement": false,
+          "name": "subject",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "default": "'Em avaliação'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('Em avaliação','Orçamento enviado','Na fila','Em correções','Pendente','Finalizado','Cancelado')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProjectId": {
+          "autoincrement": false,
+          "name": "ProjectId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "service_orders_id": {
+          "name": "service_orders_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProjectId": {
+          "name": "ProjectId",
+          "columns": [
+            "ProjectId"
+          ],
+          "isUnique": false
+        },
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "service_orders_ibfk_1": {
+          "name": "service_orders_ibfk_1",
+          "tableFrom": "service_orders",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "ProjectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "service_orders_ibfk_2": {
+          "name": "service_orders_ibfk_2",
+          "tableFrom": "service_orders",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "subprojects": {
+      "name": "subprojects",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "autoincrement": false,
+          "name": "url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "autoincrement": false,
+          "name": "type",
+          "type": "enum('Front-End','Back-End','Bot','Outros')",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProjectId": {
+          "autoincrement": false,
+          "name": "ProjectId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "subprojects_id": {
+          "name": "subprojects_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProjectId": {
+          "name": "ProjectId",
+          "columns": [
+            "ProjectId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "subprojects_ibfk_1": {
+          "name": "subprojects_ibfk_1",
+          "tableFrom": "subprojects",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "ProjectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "subscriptions": {
+      "name": "subscriptions",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(55)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "default": "'Pago'",
+          "autoincrement": false,
+          "name": "status",
+          "type": "enum('Pendente','Pago','Não pago','Cancelado')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dueAt": {
+          "autoincrement": false,
+          "name": "dueAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ProjectId": {
+          "autoincrement": false,
+          "name": "ProjectId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ClientId": {
+          "autoincrement": false,
+          "name": "ClientId",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "subscriptions_id": {
+          "name": "subscriptions_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "ProjectId": {
+          "name": "ProjectId",
+          "columns": [
+            "ProjectId"
+          ],
+          "isUnique": false
+        },
+        "ClientId": {
+          "name": "ClientId",
+          "columns": [
+            "ClientId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "subscriptions_ibfk_1": {
+          "name": "subscriptions_ibfk_1",
+          "tableFrom": "subscriptions",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "ProjectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "subscriptions_ibfk_2": {
+          "name": "subscriptions_ibfk_2",
+          "tableFrom": "subscriptions",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "ClientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "suppliers": {
+      "name": "suppliers",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cnpj": {
+          "autoincrement": false,
+          "name": "cnpj",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "autoincrement": false,
+          "name": "phone",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "suppliers_id": {
+          "name": "suppliers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "cnpj": {
+          "name": "cnpj",
+          "columns": [
+            "cnpj"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "autoincrement": true,
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "autoincrement": false,
+          "name": "username",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "autoincrement": false,
+          "name": "password",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_id": {
+          "name": "users_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "username": {
+          "name": "username",
+          "columns": [
+            "username"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}

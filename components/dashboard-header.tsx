@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ interface DashboardHeaderProps {
   email: string;
 }
 
-export function DashboardHeader({ email }: DashboardHeaderProps) {
+export async function DashboardHeader({ email }: DashboardHeaderProps) {
   return (
     <header className="border-b bg-card">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">

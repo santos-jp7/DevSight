@@ -1,8 +1,18 @@
-"use client";
+"use server";
 
-import { Wrench, Clock, CheckCircle2, AlertTriangle } from "lucide-react";
+import { db } from "@/lib/db";
+import { billings as billingsSchema } from "@/drizzle/schema";
+import { eq, inArray } from "drizzle-orm";
+import moment from "moment";
+
+import {
+  Wrench,
+  Clock,
+  CheckCircle2,
+  AlertTriangle,
+  UserRoundCheck,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -12,110 +22,63 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const resumo = [
-  { label: "Em andamento", valor: "2", icon: Wrench, cor: "text-blue-600" },
-  { label: "Aguardando", valor: "1", icon: Clock, cor: "text-amber-600" },
-  {
-    label: "Concluidas",
-    valor: "5",
-    icon: CheckCircle2,
-    cor: "text-emerald-600",
-  },
-  {
-    label: "Urgentes",
-    valor: "1",
-    icon: AlertTriangle,
-    cor: "text-destructive",
-  },
-];
+import getStatusBadge from "./utils/getStatusBadge";
+import getPrioridadeBadge from "./utils/getPrioridadeBadge";
 
-const ordens = [
-  {
-    id: "OS-001",
-    titulo: "Instalacao de rede",
-    abertura: "02/01/2026",
-    prioridade: "Alta",
-    status: "Em andamento",
-  },
-  {
-    id: "OS-002",
-    titulo: "Manutencao preventiva",
-    abertura: "15/01/2026",
-    prioridade: "Normal",
-    status: "Concluida",
-  },
-  {
-    id: "OS-003",
-    titulo: "Troca de equipamento",
-    abertura: "20/01/2026",
-    prioridade: "Urgente",
-    status: "Em andamento",
-  },
-  {
-    id: "OS-004",
-    titulo: "Configuracao de servidor",
-    abertura: "25/01/2026",
-    prioridade: "Normal",
-    status: "Aguardando",
-  },
-  {
-    id: "OS-005",
-    titulo: "Atualizacao de firmware",
-    abertura: "01/02/2026",
-    prioridade: "Baixa",
-    status: "Concluida",
-  },
-];
+export async function SectionOrdens() {
+  const serviceOrders = await db.query.serviceOrders.findMany();
 
-function getStatusBadge(status: string) {
-  switch (status) {
-    case "Em andamento":
-      return (
-        <Badge className="bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-100">
-          Em andamento
-        </Badge>
-      );
-    case "Aguardando":
-      return (
-        <Badge className="bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100">
-          Aguardando
-        </Badge>
-      );
-    case "Concluida":
-      return (
-        <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100">
-          Concluida
-        </Badge>
-      );
-    default:
-      return <Badge variant="outline">{status}</Badge>;
-  }
-}
+  const pendings = serviceOrders.filter(
+    (os) => os.status == "Em correções" || os.status == "Pendente",
+  ).length;
 
-function getPrioridadeBadge(prioridade: string) {
-  switch (prioridade) {
-    case "Urgente":
-      return <Badge variant="destructive">Urgente</Badge>;
-    case "Alta":
-      return (
-        <Badge className="bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-100">
-          Alta
-        </Badge>
-      );
-    case "Normal":
-      return <Badge variant="outline">Normal</Badge>;
-    case "Baixa":
-      return <Badge variant="secondary">Baixa</Badge>;
-    default:
-      return <Badge variant="outline">{prioridade}</Badge>;
-  }
-}
+  const awaiting = serviceOrders.filter(
+    (os) =>
+      os.status == "Em avaliação" ||
+      os.status == "Pendente" ||
+      os.status == "Na fila" ||
+      os.status == "Orçamento enviado",
+  ).length;
 
-export function SectionOrdens() {
+  const completed = serviceOrders.filter(
+    (os) => os.status == "Finalizado",
+  ).length;
+
+  const analysis = serviceOrders.filter(
+    (os) => os.status == "Em avaliação" || os.status == "Orçamento enviado",
+  ).length;
+
+  const summary = [
+    {
+      label: "Em análise",
+      valor: analysis,
+      icon: UserRoundCheck,
+      cor: "text-gray-600",
+    },
+    {
+      label: "Em andamento",
+      valor: pendings,
+      icon: Wrench,
+      cor: "text-blue-600",
+    },
+    {
+      label: "Aguardando",
+      valor: awaiting,
+      icon: Clock,
+      cor: "text-amber-600",
+    },
+    {
+      label: "Concluidas",
+      valor: completed,
+      icon: CheckCircle2,
+      cor: "text-emerald-600",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {resumo.map((item) => (
+        {summary.map((item) => (
           <Card key={item.label} className="border">
             <CardContent className="flex items-center gap-3 p-4">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
@@ -145,17 +108,19 @@ export function SectionOrdens() {
                 <TableHead>Codigo</TableHead>
                 <TableHead>Titulo</TableHead>
                 <TableHead>Abertura</TableHead>
-                <TableHead>Prioridade</TableHead>
+                {/* <TableHead>Prioridade</TableHead> */}
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {ordens.map((o) => (
+              {serviceOrders.map((o) => (
                 <TableRow key={o.id}>
                   <TableCell className="font-mono text-xs">{o.id}</TableCell>
-                  <TableCell>{o.titulo}</TableCell>
-                  <TableCell>{o.abertura}</TableCell>
-                  <TableCell>{getPrioridadeBadge(o.prioridade)}</TableCell>
+                  <TableCell>{o.subject}</TableCell>
+                  <TableCell>
+                    {moment(o.createdAt).format("DD/MM/YYYY")}
+                  </TableCell>
+                  {/* <TableCell>{getPrioridadeBadge(o.prioridade)}</TableCell> */}
                   <TableCell>{getStatusBadge(o.status)}</TableCell>
                 </TableRow>
               ))}
