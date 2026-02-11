@@ -77,7 +77,11 @@ const ticketsData = [
   },
 ];
 
-export async function SectionTickets() {
+interface SectionTicketsProps {
+  clientId: number[];
+}
+
+export async function SectionTickets({ clientId }: SectionTicketsProps) {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

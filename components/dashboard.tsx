@@ -1,13 +1,17 @@
 "use server";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SectionCobrancas } from "./section-cobrancas";
-import { SectionOrdens } from "./section-ordens";
-import { SectionAssinaturas } from "./section-assinaturas";
+import { SectionBillings } from "./section-billings";
+import { SectionOss } from "./section-oss";
+import { SectionSubscriptions } from "./section-subscriptions";
 import { SectionTickets } from "./section-tickets";
 import { DollarSign, Wrench, CreditCard, MessageSquare } from "lucide-react";
 
-export async function Dashboard() {
+interface DashboardProps {
+  clientId: number[];
+}
+
+export async function Dashboard({ clientId }: DashboardProps) {
   return (
     <div className="flex min-h-svh flex-col bg-background">
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
@@ -34,16 +38,16 @@ export async function Dashboard() {
           </TabsList>
 
           <TabsContent value="cobrancas">
-            <SectionCobrancas />
+            <SectionBillings clientId={clientId} />
           </TabsContent>
           <TabsContent value="ordens">
-            <SectionOrdens />
+            <SectionOss clientId={clientId} />
           </TabsContent>
           <TabsContent value="assinaturas">
-            <SectionAssinaturas />
+            <SectionSubscriptions clientId={clientId} />
           </TabsContent>
           <TabsContent value="tickets">
-            <SectionTickets />
+            <SectionTickets clientId={clientId} />
           </TabsContent>
         </Tabs>
       </main>

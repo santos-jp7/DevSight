@@ -1,0 +1,19 @@
+services:
+  web:
+      build: .
+      ports:
+        - "3000:3000"
+      environment:
+        - DATABASE_URL=${DATABASE_URL}
+        - REDIS_URL=redis://redis:6379 # Nome do serviço no Docker
+        - RESEND_API_KEY=${RESEND_API_KEY}
+      depends_on:
+        - redis
+  redis:
+    image: redis:alpine
+    container_name: redis_otp_cache
+    restart: always
+    volumes:
+      - redis_data:/data
+volumes:
+  redis_data:

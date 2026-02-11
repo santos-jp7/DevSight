@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { billings as billingsSchema } from "@/drizzle/schema";
+import { serviceOrders as serviceOrdersSchema } from "@/drizzle/schema";
 import { eq, inArray } from "drizzle-orm";
 import moment from "moment";
 
@@ -25,11 +25,20 @@ import {
 import getStatusBadge from "./utils/getStatusBadge";
 import getPrioridadeBadge from "./utils/getPrioridadeBadge";
 
-export async function SectionOrdens() {
-  const serviceOrders = await db.query.serviceOrders.findMany();
+interface SectionOssProps {
+  clientId: number[];
+}
+
+export async function SectionOss({ clientId }: SectionOssProps) {
+  const serviceOrders = await db.query.serviceOrders.findMany({
+    where: inArray(serviceOrdersSchema.clientId, clientId),
+  });
 
   const pendings = serviceOrders.filter(
-    (os) => os.status == "Em correções" || os.status == "Pendente",
+    (os) =>
+      os.status == "Em correções" ||
+      os.status == "Pendente" ||
+      os.status == "Na fila",
   ).length;
 
   const awaiting = serviceOrders.filter(

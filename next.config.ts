@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     serverActions: {
-      allowedOrigins: ["25kb3ggl-3003.brs.devtunnels.ms", "localhost:3003"],
+      allowedOrigins: ["localhost:3000", process.env.DOMAIN!],
     },
   },
 };

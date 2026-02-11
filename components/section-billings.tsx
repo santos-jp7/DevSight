@@ -18,9 +18,17 @@ import {
 
 import getStatusBadge from "./utils/getStatusBadge";
 
-export async function SectionCobrancas() {
+interface SectionBillingsProps {
+  clientId: number[];
+}
+
+export async function SectionBillings({ clientId }: SectionBillingsProps) {
   const billings = await db.query.billings.findMany({
-    where: inArray(billingsSchema.status, ["Pendente"]),
+    where: (billingsSchema, { and, eq, gte, inArray }) =>
+      and(
+        inArray(billingsSchema.status, ["Pendente"]),
+        inArray(billingsSchema.clientId, clientId),
+      ),
     with: {
       billingProtocols: {
         with: {
