@@ -141,7 +141,12 @@ export async function SectionBillings({ clientId }: SectionBillingsProps) {
                           null,
                       )
                       .filter((v) => v)
-                      .join(", ")}
+                      .map((subject, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <span className="text-gray-400">&bull;</span>
+                          <span>{subject}</span>
+                        </div>
+                      ))}
                   </TableCell>
                   <TableCell>
                     {moment(c.dueDate).format("DD/MM/YYYY")}
