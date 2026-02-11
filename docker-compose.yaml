@@ -9,6 +9,8 @@ services:
         - RESEND_API_KEY=${RESEND_API_KEY}
       depends_on:
         - redis
+      networks:
+        - devefficiency
   redis:
     image: redis:alpine
     container_name: redis_otp_cache
@@ -17,3 +19,8 @@ services:
       - redis_data:/data
 volumes:
   redis_data:
+
+networks:
+  devefficiency:
+    external: true
+      
