@@ -121,5 +121,5 @@ export async function getSession() {
 export async function logout() {
   (await cookies()).delete("session");
 
-  redirect("/");
+  return true;
 }

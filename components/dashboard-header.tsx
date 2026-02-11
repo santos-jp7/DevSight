@@ -3,6 +3,7 @@
 import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/app/actions/auth";
+import { redirect } from "next/navigation";
 
 interface DashboardHeaderProps {
   email: string;
@@ -27,7 +28,11 @@ export async function DashboardHeader({ email }: DashboardHeaderProps) {
           variant="ghost"
           size="sm"
           className="text-muted-foreground"
-          onClick={logout}
+          onClick={() => {
+            logout();
+
+            redirect("/");
+          }}
         >
           <LogOut className="mr-2 h-4 w-4" />
           Sair
