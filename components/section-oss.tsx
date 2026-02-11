@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { serviceOrders as serviceOrdersSchema } from "@/drizzle/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, desc } from "drizzle-orm";
 import moment from "moment";
 
 import {
@@ -32,6 +32,10 @@ interface SectionOssProps {
 export async function SectionOss({ clientId }: SectionOssProps) {
   const serviceOrders = await db.query.serviceOrders.findMany({
     where: inArray(serviceOrdersSchema.clientId, clientId),
+    orderBy: desc(serviceOrdersSchema.createdAt),
+    with: {
+      project: true,
+    },
   });
 
   const pendings = serviceOrders.filter(
@@ -117,6 +121,7 @@ export async function SectionOss({ clientId }: SectionOssProps) {
                 <TableHead>Codigo</TableHead>
                 <TableHead>Titulo</TableHead>
                 <TableHead>Abertura</TableHead>
+                <TableHead>Projeto</TableHead>
                 {/* <TableHead>Prioridade</TableHead> */}
                 <TableHead>Status</TableHead>
               </TableRow>
@@ -129,6 +134,7 @@ export async function SectionOss({ clientId }: SectionOssProps) {
                   <TableCell>
                     {moment(o.createdAt).format("DD/MM/YYYY")}
                   </TableCell>
+                  <TableCell>{o.project?.name || "-"}</TableCell>
                   {/* <TableCell>{getPrioridadeBadge(o.prioridade)}</TableCell> */}
                   <TableCell>{getStatusBadge(o.status)}</TableCell>
                 </TableRow>

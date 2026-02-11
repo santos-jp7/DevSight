@@ -83,14 +83,16 @@ export async function SectionSubscriptions({
                 </span>
                 <span>
                   Proxima:{" "}
-                  {moment().date() <= (subscription.client?.dueDay || 20)
-                    ? moment()
-                        .set("date", subscription.client?.dueDay || 20)
-                        .format("DD/MM/YYYY")
-                    : moment()
-                        .add(1, "month")
-                        .set("date", subscription.client?.dueDay || 20)
-                        .format("DD/MM/YYYY")}
+                  {subscription.status != "Cancelado"
+                    ? moment().date() <= (subscription.client?.dueDay || 20)
+                      ? moment()
+                          .set("date", subscription.client?.dueDay || 20)
+                          .format("DD/MM/YYYY")
+                      : moment()
+                          .add(1, "month")
+                          .set("date", subscription.client?.dueDay || 20)
+                          .format("DD/MM/YYYY")
+                    : "-"}
                 </span>
               </div>
               <Separator />
