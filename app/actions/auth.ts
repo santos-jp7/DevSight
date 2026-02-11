@@ -74,8 +74,18 @@ export async function handleVerifyCode(email: string, codeSubmitted: string) {
 
   await redis.del("otp:" + email);
 
+  const contacts = await db.query.contacts.findMany({
+    where: eq(contactsSchema.email, email),
+  });
+
+  if (!contacts.length) {
+    return { error: "Entre em contato com o suporte." };
+  }
+
+  const clientsId = contacts.map((v) => v.clientId);
+
   const sessionToken = jwt.sign(
-    { id: 1, email: email, clientId: [1] },
+    { email: email, clientId: clientsId },
     process.env.JWT_SECRET!,
     { expiresIn: "7d" },
   );
