@@ -2,6 +2,7 @@
 
 import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { logout } from "@/app/actions/auth";
 
 interface DashboardHeaderProps {
   email: string;
@@ -22,7 +23,12 @@ export async function DashboardHeader({ email }: DashboardHeaderProps) {
             <span className="text-xs text-muted-foreground">{email}</span>
           </div>
         </div>
-        <Button variant="ghost" size="sm" className="text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-muted-foreground"
+          onClick={logout}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           Sair
         </Button>

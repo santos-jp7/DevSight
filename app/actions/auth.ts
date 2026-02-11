@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import { Resend } from "resend";
 import { OtpEmail } from "@/components/email-otp";
@@ -115,4 +116,10 @@ export async function getSession() {
   } catch {
     return null;
   }
+}
+
+export async function logout() {
+  (await cookies()).delete("session");
+
+  redirect("/");
 }
