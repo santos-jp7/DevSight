@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { billings as billingsSchema } from "@/drizzle/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, desc } from "drizzle-orm";
 import moment from "moment";
 
 import { DollarSign, Clock, CheckCircle2, AlertCircle } from "lucide-react";
@@ -24,11 +24,8 @@ interface SectionBillingsProps {
 
 export async function SectionBillings({ clientId }: SectionBillingsProps) {
   const billings = await db.query.billings.findMany({
-    where: (billingsSchema, { and, eq, gte, inArray }) =>
-      and(
-        inArray(billingsSchema.status, ["Pendente"]),
-        inArray(billingsSchema.clientId, clientId),
-      ),
+    where: inArray(billingsSchema.clientId, clientId),
+    orderBy: desc(billingsSchema.createdAt),
     with: {
       billingProtocols: {
         with: {
