@@ -17,6 +17,8 @@ services:
     restart: always
     volumes:
       - redis_data:/data
+    networks:
+        - devefficiency
 volumes:
   redis_data:
 
