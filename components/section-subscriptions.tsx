@@ -11,7 +11,7 @@ import {
 
 import { db } from "@/lib/db";
 import { subscriptions as subscriptionsSchema } from "@/drizzle/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, desc } from "drizzle-orm";
 import moment from "moment";
 
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,7 @@ export async function SectionSubscriptions({
 }: SectionSubscriptionsProps) {
   const subscriptions = await db.query.subscriptions.findMany({
     where: inArray(subscriptionsSchema.clientId, clientId),
+    orderBy: desc(subscriptionsSchema.createdAt),
     with: {
       protocols: {
         with: {
