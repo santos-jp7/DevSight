@@ -1,9 +1,7 @@
 "use server";
 
-import { LogOut, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { logout } from "@/app/actions/auth";
-import { redirect } from "next/navigation";
+import { User } from "lucide-react";
+import { LogoutButton } from "./logout-button";
 
 interface DashboardHeaderProps {
   email: string;
@@ -24,19 +22,7 @@ export async function DashboardHeader({ email }: DashboardHeaderProps) {
             <span className="text-xs text-muted-foreground">{email}</span>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-muted-foreground"
-          onClick={() => {
-            logout();
-
-            redirect("/");
-          }}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Sair
-        </Button>
+        <LogoutButton />
       </div>
     </header>
   );
