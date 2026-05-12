@@ -128,13 +128,21 @@ export async function SectionOss({ clientId }: SectionOssProps) {
             </TableHeader>
             <TableBody>
               {serviceOrders.map((o) => (
-                <TableRow key={o.id}>
-                  <TableCell className="font-mono text-xs">{o.id}</TableCell>
-                  <TableCell>{o.subject}</TableCell>
-                  <TableCell>
-                    {moment(o.createdAt).format("DD/MM/YYYY")}
+                <TableRow key={o.id} className="cursor-pointer hover:bg-muted/50">
+                  <TableCell className="font-mono text-xs">
+                    <a href={`/dashboard/os/${o.id}`} className="block">{o.id}</a>
                   </TableCell>
-                  <TableCell>{o.project?.name || "-"}</TableCell>
+                  <TableCell>
+                    <a href={`/dashboard/os/${o.id}`} className="block hover:underline">{o.subject}</a>
+                  </TableCell>
+                  <TableCell>
+                    <a href={`/dashboard/os/${o.id}`} className="block">
+                      {moment(o.createdAt).format("DD/MM/YYYY")}
+                    </a>
+                  </TableCell>
+                  <TableCell>
+                    <a href={`/dashboard/os/${o.id}`} className="block">{o.project?.name || "-"}</a>
+                  </TableCell>
                   {/* <TableCell>{getPrioridadeBadge(o.prioridade)}</TableCell> */}
                   <TableCell>{getStatusBadge(o.status)}</TableCell>
                 </TableRow>

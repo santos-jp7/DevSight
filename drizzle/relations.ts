@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { bankAccounts, bankTransfers, billings, billingProtocols, protocols, clients, projects, checks, contacts, costCenters, credentials, subscriptions, licenses, suppliers, payables, servers, products, protocolProducts, protocolRegisters, serviceOrders, receipts, subprojects } from "./schema";
+import { bankAccounts, bankTransfers, billings, billingProtocols, billingFiles, protocols, clients, projects, checks, contacts, costCenters, credentials, subscriptions, licenses, suppliers, payables, servers, products, protocolProducts, protocolRegisters, serviceOrders, osEntries, receipts, subprojects } from "./schema";
 
 export const bankTransfersRelations = relations(bankTransfers, ({one}) => ({
 	bankAccount_sourceAccountId: one(bankAccounts, {
@@ -39,6 +39,7 @@ export const billingProtocolsRelations = relations(billingProtocols, ({one}) => 
 
 export const billingsRelations = relations(billings, ({one, many}) => ({
 	billingProtocols: many(billingProtocols),
+	billingFiles: many(billingFiles),
 	bankAccount: one(bankAccounts, {
 		fields: [billings.bankAccountId],
 		references: [bankAccounts.id]
@@ -46,6 +47,13 @@ export const billingsRelations = relations(billings, ({one, many}) => ({
 	client: one(clients, {
 		fields: [billings.clientId],
 		references: [clients.id]
+	}),
+}));
+
+export const billingFilesRelations = relations(billingFiles, ({one}) => ({
+	billing: one(billings, {
+		fields: [billingFiles.billingId],
+		references: [billings.id]
 	}),
 }));
 
@@ -198,6 +206,7 @@ export const protocolRegistersRelations = relations(protocolRegisters, ({one}) =
 
 export const serviceOrdersRelations = relations(serviceOrders, ({one, many}) => ({
 	protocols: many(protocols),
+	osEntries: many(osEntries),
 	project: one(projects, {
 		fields: [serviceOrders.projectId],
 		references: [projects.id]
@@ -205,6 +214,13 @@ export const serviceOrdersRelations = relations(serviceOrders, ({one, many}) => 
 	client: one(clients, {
 		fields: [serviceOrders.clientId],
 		references: [clients.id]
+	}),
+}));
+
+export const osEntriesRelations = relations(osEntries, ({one}) => ({
+	serviceOrder: one(serviceOrders, {
+		fields: [osEntries.serviceOrderId],
+		references: [serviceOrders.id]
 	}),
 }));
 

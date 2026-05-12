@@ -5,7 +5,7 @@ import { billings as billingsSchema } from "@/drizzle/schema";
 import { eq, inArray, desc } from "drizzle-orm";
 import moment from "moment";
 
-import { DollarSign, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { DollarSign, Clock, CheckCircle2, AlertCircle, FileText, Receipt } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -37,6 +37,7 @@ export async function SectionBillings({ clientId }: SectionBillingsProps) {
           },
         },
       },
+      billingFiles: true,
     },
   });
 
@@ -126,10 +127,14 @@ export async function SectionBillings({ clientId }: SectionBillingsProps) {
                 <TableHead>Pago em</TableHead>
                 <TableHead>Valor</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Documentos</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {billings.map((c) => (
+              {billings.map((c) => {
+                const boleto = c.billingFiles?.find((f) => f.type === "boleto");
+                const notaFiscal = c.billingFiles?.find((f) => f.type === "nota_fiscal");
+                return (
                 <TableRow key={c.id}>
                   <TableCell className="font-mono text-xs">{c.id}</TableCell>
                   <TableCell>
@@ -163,8 +168,27 @@ export async function SectionBillings({ clientId }: SectionBillingsProps) {
                     }).format(Number(c.totalValue))}
                   </TableCell>
                   <TableCell>{getStatusBadge(c.status)}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {boleto ? (
+                        <a href={boleto.url} target="_blank" rel="noopener noreferrer" title="Abrir Boleto" className="text-blue-600 hover:text-blue-800">
+                          <Receipt className="h-4 w-4" />
+                        </a>
+                      ) : (
+                        <Receipt className="h-4 w-4 text-gray-300" title="Boleto não disponível" />
+                      )}
+                      {notaFiscal ? (
+                        <a href={notaFiscal.url} target="_blank" rel="noopener noreferrer" title="Abrir Nota Fiscal" className="text-emerald-600 hover:text-emerald-800">
+                          <FileText className="h-4 w-4" />
+                        </a>
+                      ) : (
+                        <FileText className="h-4 w-4 text-gray-300" title="Nota Fiscal não disponível" />
+                      )}
+                    </div>
+                  </TableCell>
                 </TableRow>
-              ))}
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
