@@ -175,14 +175,18 @@ export async function SectionBillings({ clientId }: SectionBillingsProps) {
                           <Receipt className="h-4 w-4" />
                         </a>
                       ) : (
-                        <Receipt className="h-4 w-4 text-gray-300" title="Boleto não disponível" />
+                        <span title="Boleto não disponível">
+                          <Receipt className="h-4 w-4 text-gray-300" />
+                        </span>
                       )}
                       {notaFiscal ? (
                         <a href={notaFiscal.url} target="_blank" rel="noopener noreferrer" title="Abrir Nota Fiscal" className="text-emerald-600 hover:text-emerald-800">
                           <FileText className="h-4 w-4" />
                         </a>
                       ) : (
-                        <FileText className="h-4 w-4 text-gray-300" title="Nota Fiscal não disponível" />
+                        <span title="Nota Fiscal não disponível">
+                          <FileText className="h-4 w-4 text-gray-300" />
+                        </span>
                       )}
                     </div>
                   </TableCell>
