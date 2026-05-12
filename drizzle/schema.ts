@@ -382,6 +382,8 @@ export const protocols = mysqlTable(
     ]).default("Em aberto"),
     notes: text(),
     closedAt: datetime({ mode: "string" }),
+    currentInstallment: int("current_installment"),
+    totalInstallments: int("total_installments"),
     createdAt: datetime({ mode: "string" }),
     updatedAt: datetime({ mode: "string" }),
     subscriptionId: int("SubscriptionId", { unsigned: true }).references(
@@ -548,6 +550,47 @@ export const suppliers = mysqlTable(
   (table) => [
     primaryKey({ columns: [table.id], name: "suppliers_id" }),
     unique("cnpj").on(table.cnpj),
+  ],
+);
+
+export const billingFiles = mysqlTable(
+  "billing_files",
+  {
+    id: int({ unsigned: true }).autoincrement().notNull(),
+    type: mysqlEnum(["boleto", "nota_fiscal"]).notNull(),
+    filename: varchar({ length: 255 }).notNull(),
+    url: varchar({ length: 512 }).notNull(),
+    createdAt: datetime({ mode: "string" }),
+    updatedAt: datetime({ mode: "string" }),
+    billingId: int("BillingId", { unsigned: true }).references(
+      () => billings.id,
+      { onDelete: "cascade", onUpdate: "cascade" },
+    ),
+  },
+  (table) => [
+    index("BillingId").on(table.billingId),
+    primaryKey({ columns: [table.id], name: "billing_files_id" }),
+  ],
+);
+
+export const osEntries = mysqlTable(
+  "os_entries",
+  {
+    id: int({ unsigned: true }).autoincrement().notNull(),
+    description: varchar({ length: 1000 }).notNull(),
+    public: tinyint().default(0).notNull(),
+    date: datetime({ mode: "string" }).notNull(),
+    status: mysqlEnum(["Em andamento", "Finalizado"]).notNull(),
+    createdAt: datetime({ mode: "string" }),
+    updatedAt: datetime({ mode: "string" }),
+    serviceOrderId: int("ServiceOrderId", { unsigned: true }).references(
+      () => serviceOrders.id,
+      { onDelete: "cascade", onUpdate: "cascade" },
+    ),
+  },
+  (table) => [
+    index("ServiceOrderId").on(table.serviceOrderId),
+    primaryKey({ columns: [table.id], name: "os_entries_id" }),
   ],
 );
 
